@@ -8,8 +8,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef FAVICONMANAGER_H
-#define FAVICONMANAGER_H
+#ifndef MOCK_FAVICONMANAGER_H
+#define MOCK_FAVICONMANAGER_H
 
 #include <QObject>
 #include <QMap>
@@ -47,4 +47,5 @@ private:
     QMap<QString, FaviconSet> m_faviconSets;
 };
 
-#endif // FAVICONMANAGER_H
+#endif // MOCK_FAVICONMANAGER_H
+

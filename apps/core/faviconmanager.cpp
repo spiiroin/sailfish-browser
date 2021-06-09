@@ -22,6 +22,8 @@
 
 #include "faviconmanager.h"
 
+#include "declarativewebpage.h"
+
 FaviconManager::FaviconManager(QObject *parent)
     : QObject(parent)
     , m_faviconSets()
@@ -186,6 +188,10 @@ QString FaviconManager::get(const QString &type, const QString &hostname)
 
 void FaviconManager::grabIcon(const QString &type, DeclarativeWebPage *webPage, const QSize &size)
 {
+    if (!get(type, webPage->url().toString()).isEmpty()) {
+        return; // favicon was previously already loaded.
+    }
+
     DataFetcher *dataFetcher = new DataFetcher(this);
 
     std::shared_ptr<QMetaObject::Connection> dataConn = std::make_shared<QMetaObject::Connection>();

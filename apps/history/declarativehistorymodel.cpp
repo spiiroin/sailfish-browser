@@ -11,6 +11,9 @@
 #include "declarativehistorymodel.h"
 
 #include "dbmanager.h"
+#include "faviconmanager.h"
+
+#include <QUrl>
 
 DeclarativeHistoryModel::DeclarativeHistoryModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -28,6 +31,7 @@ QHash<int, QByteArray> DeclarativeHistoryModel::roleNames() const
     roles[UrlRole] = "url";
     roles[TitleRole] = "title";
     roles[DateRole] = "date";
+    roles[FaviconRole] = "favicon";
     return roles;
 }
 
@@ -100,6 +104,8 @@ QVariant DeclarativeHistoryModel::data(const QModelIndex & index, int role) cons
         return url.title().isEmpty() ? url.url() : url.title();
     case DateRole:
         return url.date();
+    case FaviconRole:
+        return FaviconManager::instance()->get("history", url.url());
     default:
         return QVariant();
     }
