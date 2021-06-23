@@ -72,7 +72,7 @@ SilicaControl {
             width: popUpMenu.width
             height: popUpMenu.height
 
-            SilicaFlickable {
+            Flickable {
                 id: menuFlickable
 
                 x: popUpMenu.width - width - popUpMenu.margin
@@ -92,12 +92,22 @@ SilicaControl {
 
                 interactive: popUpMenu.active   // Don't handle mouse events during fade out.
 
+                boundsBehavior: Flickable.DragOverBounds
+
+                onDragEnded: {
+                    if (contentY < -popUpMenu.margin) {
+                        topMargin = -contentY
+                        popUpMenu.closed()
+                    }
+                }
+
                 Item {
                     id: headerItem
 
                     y: Math.max(0, footerLoader.y - height - (Screen.sizeCategory > Screen.Medium
                                 ? contentLoader.height
                                 : Math.min(contentLoader.height, Theme.paddingLarge * popUpMenu.heightRatio)))
+                        + Math.min(0, menuFlickable.contentY)
 
                     width: menuFlickable.width
                     height: Theme.paddingLarge
@@ -219,7 +229,7 @@ SilicaControl {
                         0, menuItem.menuTop / menuFlickable.height, 0, 1)
 
                 x: menuFlickable.x
-                y: menuFlickable.y + menuItem.menuTop
+                y: menuFlickable.y + menuItem.menuTop - Math.min(0, menuFlickable.contentY)
                 width: menuFlickable.width
                 height: menuFlickable.height - menuItem.menuTop
 
